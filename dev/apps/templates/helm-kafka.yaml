@@ -7,7 +7,7 @@ metadata:
   - resources-finalizer.argocd.argoproj.io
 spec:
   
-  project: banking    
+  project: kafka    
 
   source:
     helm:
@@ -19,7 +19,7 @@ spec:
     targetRevision: HEAD
 
   destination:
-    namespace: banking
+    namespace: kafka
     server: {{ .Values.spec.destination.server }}
     
   syncPolicy:
