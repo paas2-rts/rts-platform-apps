@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: helm-accounts
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  
+  project: banking    
+
+  source:
+    helm:
+      version: v3
+      valueFiles:
+      - values-dev.yaml
+    path: ./
+    repoURL: https://github.com/paas2-rts/kafka.helm
+    targetRevision: HEAD
+
+  destination:
+    namespace: banking
+    server: {{ .Values.spec.destination.server }}
+    
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true  
+    automated:  
+      prune: true   
