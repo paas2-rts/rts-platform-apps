@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: helm-accounts
+  name: helm-kafka
   namespace: argocd
   finalizers:
   - resources-finalizer.argocd.argoproj.io
@@ -13,7 +13,7 @@ spec:
     helm:
       version: v3
       valueFiles:
-      - values-dev.yaml
+      - values-{{ .Values.env }}.yaml
     path: ./
     repoURL: https://github.com/paas2-rts/kafka.helm
     targetRevision: HEAD
