@@ -13,8 +13,8 @@ spec:
     helm:
       version: v3
       valueFiles:
-      - values-{{ .Values.env }}.yaml
-    path: rts-kafka/dev/
+      - values.yaml
+    path: rts-kafka/{{ .Values.env }}/
     repoURL: https://github.com/paas2-rts/kafka-provisioning
     targetRevision: HEAD
 
