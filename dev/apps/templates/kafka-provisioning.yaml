@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rts-kafka-provisioning
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  
+  project: kafka    
+
+  source:
+    helm:
+      version: v3
+      valueFiles:
+      - values-{{ .Values.env }}.yaml
+    path: rts-kafka/dev/
+    repoURL: https://github.com/paas2-rts/kafka-provisioning
+    targetRevision: HEAD
+
+  destination:
+    namespace: kafka
+    server: {{ .Values.spec.destination.server }}
+    
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true  
+    automated:  
+      prune: true  
