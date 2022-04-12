@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kafka-exporter
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  
+  project: kafka    
+
+  source:
+    helm:
+      version: v3
+      valueFiles:
+      - values-kafka-{{ .Values.env }}.yaml
+    path: ./
+    repoURL: https://github.com/paas2-rts/kafka-exporter.helm
+    targetRevision: HEAD
+
+  destination:
+    namespace: kafka
+    server: {{ .Values.spec.destination.server }}
+    
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true  
+    automated:  
+      prune: true   
